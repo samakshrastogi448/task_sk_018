@@ -42,3 +42,11 @@ jobs:
         env:
           PRODUCTION_URL: https://tasksk018.vercel.app
         run: npm run qa:production
+      - name: Upload QA evidence
+        if: always() && steps.probe.outputs.live == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-qa-${{ github.sha }}
+          path: qa-artifacts/
+          if-no-files-found: warn
+          retention-days: 14
